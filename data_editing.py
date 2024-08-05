@@ -114,9 +114,76 @@ def delete_professor(employee_id):
         if conn:
             conn.close()
 
+def edit_student(student_id, first_name=None, middle_name=None, last_name=None, gpa=None, email=None):
+    try:
+        # Connect to the SQLite database
+        conn = sqlite3.connect('Project Files/university.db')
+        cursor = conn.cursor()
+
+        # Create the UPDATE SQL query
+        query = """
+        UPDATE Student
+        SET FirstName = COALESCE(?, FirstName),
+            MiddleName = COALESCE(?, MiddleName),
+            LastName = COALESCE(?, LastName),
+            Gpa = COALESCE(?, Gpa),
+            Email = COALESCE(?, Email)
+        WHERE StudentId = ?
+        """
+
+        # Execute the query with the provided data
+        cursor.execute(query, (first_name, middle_name, last_name, gpa, email, student_id))
+
+        # Commit the transaction
+        conn.commit()
+
+        print("Student updated successfully.")
+
+    except sqlite3.Error as error:
+        print("Error while updating student: ", error)
+
+    finally:
+        # Close the database connection
+        if conn:
+            conn.close()
+
+
+def edit_professor(employee_id, first_name=None, last_name=None, email=None):
+    try:
+        # Connect to the SQLite database
+        conn = sqlite3.connect('Project Files/university.db')
+        cursor = conn.cursor()
+
+        # Create the UPDATE SQL query
+        query = """
+        UPDATE Professor
+        SET FirstName = COALESCE(?, FirstName),
+            LastName = COALESCE(?, LastName),
+            Email = COALESCE(?, Email)
+        WHERE EmployeeId = ?
+        """
+
+        # Execute the query with the provided data
+        cursor.execute(query, (first_name, last_name, email, employee_id))
+
+        # Commit the transaction
+        conn.commit()
+
+        print("Professor updated successfully.")
+
+    except sqlite3.Error as error:
+        print("Error while updating professor: ", error)
+
+    finally:
+        # Close the database connection
+        if conn:
+            conn.close()
 
 # First step: Choose the main action
-main_action = int(input(f'Choose an action: \n    1: Insert Data \n   2: Delete Data \n   3: Exit'))
+
+
+# First step: Choose the main action
+main_action = int(input(f'Choose an action: \n    1: Insert Data \n    2: Delete Data \n    3: Edit Data \n    4: Exit'))
 
 if main_action == 1:
     # Second step: Choose the type of data to insert
@@ -151,4 +218,25 @@ elif main_action == 2:
         delete_professor(employee_id)
 
 elif main_action == 3:
+    # Second step: Choose the type of data to edit
+    edit_option = int(input(f'Choose an option: \n    1: Edit Student \n    2: Edit Professor'))
+    if edit_option == 1:
+        # edit a student information
+        student_id = input("Enter the student ID to edit: ")
+        first_name = input("Enter the new first name of the student (leave blank to keep current): ") or None
+        middle_name = input("Enter the new middle name of the student (leave blank to keep current): ") or None
+        last_name = input("Enter the new last name of the student (leave blank to keep current): ") or None
+        gpa = input("Enter the new GPA of the student (leave blank to keep current): ")
+        gpa = float(gpa) if gpa else None
+        email = input("Enter the new email address of the student (leave blank to keep current): ") or None
+        edit_student(student_id, first_name, middle_name, last_name, gpa, email)
+    elif edit_option == 2:
+        # edit a professor information
+        employee_id = input("Enter the employee ID to edit: ")
+        first_name = input("Enter the new first name of the professor (leave blank to keep current): ") or None
+        last_name = input("Enter the new last name of the professor (leave blank to keep current): ") or None
+        email = input("Enter the new email address of the professor (leave blank to keep current): ") or None
+        edit_professor(employee_id, first_name, last_name, email)
+
+elif main_action == 4:
     exit()
