@@ -65,7 +65,7 @@ def insert_professor(employee_id, first_name, last_name, email):
 
 your_options = int(input('Choose an option: 1: "Insert Student", 2: "Insert Professor", 3: "Exit"'))
 if your_options == 1:
-    # Example usage for inserting a student
+    # insert a student information
     student_id = input("Enter the student ID: ")
     first_name = input("Enter the first name of the student: ")
     middle_name = input("Enter the middle name of the student (if any): ")
@@ -75,7 +75,7 @@ if your_options == 1:
     insert_student(student_id, first_name, middle_name, last_name, gpa, email)
 
 elif your_options == 2:
-    # Example usage for inserting a professor
+    # insert a professor information
     employee_id = input("Enter the employee ID of the professor: ")
     first_name = input("Enter the first name of the professor: ")
     last_name = input("Enter the last name of the professor: ")
