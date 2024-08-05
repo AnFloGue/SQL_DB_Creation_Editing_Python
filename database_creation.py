@@ -79,6 +79,7 @@ def drop_and_create_tables():
         print("Error while creating tables: ", error)
     
     finally:
+        
         # Close the database connection
         if conn:
             conn.close()

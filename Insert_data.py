@@ -75,6 +75,7 @@ if your_options == 1:
     insert_student(student_id, first_name, middle_name, last_name, gpa, email)
 
 elif your_options == 2:
+    
     # insert a professor information
     employee_id = input("Enter the employee ID of the professor: ")
     first_name = input("Enter the first name of the professor: ")
