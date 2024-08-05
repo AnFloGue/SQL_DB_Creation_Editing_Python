@@ -114,12 +114,13 @@ def delete_professor(employee_id):
         if conn:
             conn.close()
 
+
 def edit_student(student_id, first_name=None, middle_name=None, last_name=None, gpa=None, email=None):
     try:
         # Connect to the SQLite database
         conn = sqlite3.connect('Project Files/university.db')
         cursor = conn.cursor()
-
+        
         # Create the UPDATE SQL query
         query = """
         UPDATE Student
@@ -130,30 +131,30 @@ def edit_student(student_id, first_name=None, middle_name=None, last_name=None, 
             Email = COALESCE(?, Email)
         WHERE StudentId = ?
         """
-
+        
         # Execute the query with the provided data
         cursor.execute(query, (first_name, middle_name, last_name, gpa, email, student_id))
-
+        
         # Commit the transaction
         conn.commit()
-
+        
         print("Student updated successfully.")
-
+    
     except sqlite3.Error as error:
         print("Error while updating student: ", error)
-
+    
     finally:
         # Close the database connection
         if conn:
             conn.close()
 
 
-def edit_professor(employee_id, first_name=None, last_name=None, email=None):
+def update_professor(employee_id, first_name=None, last_name=None, email=None):
     try:
         # Connect to the SQLite database
         conn = sqlite3.connect('Project Files/university.db')
         cursor = conn.cursor()
-
+        
         # Create the UPDATE SQL query
         query = """
         UPDATE Professor
@@ -162,28 +163,30 @@ def edit_professor(employee_id, first_name=None, last_name=None, email=None):
             Email = COALESCE(?, Email)
         WHERE EmployeeId = ?
         """
-
+        
         # Execute the query with the provided data
         cursor.execute(query, (first_name, last_name, email, employee_id))
-
+        
         # Commit the transaction
         conn.commit()
-
+        
         print("Professor updated successfully.")
-
+    
     except sqlite3.Error as error:
         print("Error while updating professor: ", error)
-
+    
     finally:
         # Close the database connection
         if conn:
             conn.close()
 
+
 # First step: Choose the main action
 
 
 # First step: Choose the main action
-main_action = int(input(f'Choose an action: \n    1: Insert Data \n    2: Delete Data \n    3: Edit Data \n    4: Exit'))
+main_action = int(
+    input(f'Choose an action: \n    1: Insert Data \n    2: Delete Data \n    3: Update Data \n    4: Exit'))
 
 if main_action == 1:
     # Second step: Choose the type of data to insert
@@ -236,7 +239,7 @@ elif main_action == 3:
         first_name = input("Enter the new first name of the professor (leave blank to keep current): ") or None
         last_name = input("Enter the new last name of the professor (leave blank to keep current): ") or None
         email = input("Enter the new email address of the professor (leave blank to keep current): ") or None
-        edit_professor(employee_id, first_name, last_name, email)
+        update_professor(employee_id, first_name, last_name, email)
 
 elif main_action == 4:
     exit()
